@@ -2,11 +2,6 @@
 
 HealthGuard is a safety-first symptom-triage assistant that helps people understand how urgently to seek professional care without claiming to diagnose disease.
 
-<!-- 
-
-Api key Gemini 
- 
-AQ.Ab8RN6JCybwJoXkEMivcNMB3EtlMo_flRXpDkM1bo9o8cz4SNQ-->
 
 ## Run & Operate
 
