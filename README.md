@@ -179,5 +179,4 @@ Open your browser to: **`http://localhost:5173`**
 ## ⚠️ Medical & Responsible AI Disclaimer
 
 HealthGuard is an artificial intelligence-assisted clinical decision-support and triage prototype designed strictly for educational and informational purposes. It is **not** a certified medical diagnostic device and does not establish a physician-patient relationship. It does not provide medical diagnoses, clinical prescriptions, or treatment plans. If you believe you are experiencing a life-threatening medical emergency, call your local emergency response number (e.g., 911, 999, 112) or proceed to the nearest emergency medical facility immediately.
-#   A g e n t i c _ a i _ H e a l t h  
- 
+#
