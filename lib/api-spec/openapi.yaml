@@ -1,0 +1,172 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: triage
+    description: Safety-first symptom triage operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /triage:
+    post:
+      operationId: assessTriage
+      tags: [triage]
+      summary: Assess symptom urgency
+      description: Evaluates structured symptom information using transparent safety rules. It does not diagnose disease or replace a clinician.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TriageInput"
+      responses:
+        "200":
+          description: Triage assessment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TriageAssessment"
+        "400":
+          description: Invalid triage input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    TriageInput:
+      type: object
+      required:
+        - symptoms
+        - ageGroup
+        - duration
+        - severity
+        - associatedSymptoms
+        - medicalHistory
+        - medications
+        - pregnancyStatus
+      properties:
+        symptoms:
+          type: string
+          minLength: 3
+          maxLength: 2000
+        ageGroup:
+          type: string
+          enum: [child, teen, adult, older-adult]
+        duration:
+          type: string
+          enum: [today, few-days, one-to-two-weeks, longer]
+        severity:
+          type: integer
+          minimum: 1
+          maximum: 10
+        associatedSymptoms:
+          type: array
+          items:
+            type: string
+          maxItems: 20
+        medicalHistory:
+          type: string
+          maxLength: 1000
+        medications:
+          type: string
+          maxLength: 1000
+        pregnancyStatus:
+          type: string
+          enum: [not-applicable, pregnant, possibly-pregnant, postpartum]
+    TriageAssessment:
+      type: object
+      required:
+        - urgency
+        - urgencyLabel
+        - headline
+        - summary
+        - redFlags
+        - possibleCategories
+        - suggestedTests
+        - nextSteps
+        - sources
+        - disclaimer
+      properties:
+        urgency:
+          type: string
+          enum: [emergency, same-day, soon, self-care]
+        urgencyLabel:
+          type: string
+        headline:
+          type: string
+        summary:
+          type: string
+        redFlags:
+          type: array
+          items:
+            type: string
+        possibleCategories:
+          type: array
+          items:
+            type: string
+        suggestedTests:
+          type: array
+          items:
+            type: string
+        nextSteps:
+          type: array
+          items:
+            type: string
+        sources:
+          type: array
+          items:
+            $ref: "#/components/schemas/MedicalSource"
+        disclaimer:
+          type: string
+    MedicalSource:
+      type: object
+      required:
+        - title
+        - publisher
+        - url
+        - why
+      properties:
+        title:
+          type: string
+        publisher:
+          type: string
+        url:
+          type: string
+          format: uri
+        why:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+

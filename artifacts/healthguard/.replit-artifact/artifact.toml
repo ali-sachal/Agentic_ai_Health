@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "HealthGuard"
+description = "A safety-first clinical risk triage assistant that asks structured symptom questions, checks emergency warning signs, and guides people toward the right level of professional care without claiming to diagnose them."
+version = "1.0.0"
+id = "artifacts/healthguard"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24368
+
+[services.development]
+run = "pnpm --filter @workspace/healthguard run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/healthguard", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/healthguard/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24368"
+BASE_PATH = "/"
